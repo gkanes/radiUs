@@ -28,6 +28,7 @@ class ViewController: UIViewController,  MGLMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         // Create a new map view using the Mapbox Light style.
         let mapView = MGLMapView(frame: view.bounds, styleURL: MGLStyle.lightStyleURL)
         mapView.layer.zPosition = 1
@@ -108,12 +109,19 @@ class ViewController: UIViewController,  MGLMapViewDelegate {
         
         // Add all annotations to the map all at once, instead of individually.
         mapView.addAnnotations(myPlaces)
-        
+        //mapView.selectAnnotation(myPlaces, animated: true)
         // Allow the map view to display the user's location
         //mapView.showsUserLocation = true
     }
     
  
+    
+        
+    
+    
+    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+        return UIButton(type: .detailDisclosure)
+    }
     
     // This delegate method is where you tell the map to load an image for a specific annotation based on the willUseImage property of the custom subclass.
     func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
@@ -160,6 +168,18 @@ class ViewController: UIViewController,  MGLMapViewDelegate {
     func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         // Always allow callouts to popup when annotations are tapped.
         return true
+    }
+    
+    
+    func mapView(_ mapView: MGLMapView, leftCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+        
+        // Callout height is fixed; width expands to fit its content.
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 30, height: 100))
+        label.textAlignment = .left
+        label.textColor = UIColor(red: 0.81, green: 0.71, blue: 0.23, alpha: 1)
+        label.text = "金閣寺"
+        
+        return label
     }
     // Zoom to the annotation when it is selected
     func mapView(_ mapView: MGLMapView, didSelect annotation: MGLAnnotation) {
